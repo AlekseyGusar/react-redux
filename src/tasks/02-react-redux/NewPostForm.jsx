@@ -1,12 +1,6 @@
 import React, {Component} from "react";
-import {addNewPost} from "./actions";
-
-// TODO Import `connect()`, write a `mapState()` function that extracts the
-// TODO data this component needs, and default-export the connected component.
-// TODO Be sure to hook up `addNewPost()` so the component can dispatch the action.
-
-
-
+import { addNewPost } from "./actions";
+import { connect } from "react-redux";
 
 export class NewPostForm extends Component {
     state = {
@@ -20,17 +14,16 @@ export class NewPostForm extends Component {
     }
 
     onPostTitleChanged = (e) => {
-        const {value} = e.target;
+        const { value } = e.target;
         this.setState({title : value});
     }
 
     onAddNewPostClicked = () => {
-        // TODO Dispatch an action with the title and the selected author ID,
-        // TODO using the `addNewPost()` action creator.  Afterwards, clear the post title field by
-        // TODO setting it to an empty string.
-
-        // TODO Only dispatch if the selected author isn't null, and
-        // TODO the current post title isn't an empty string
+        const { title, selectedAuthor } = this.state;
+        if (selectedAuthor !== null || title !== "") {  
+          this.props.addNewPost(selectedAuthor, title);
+          this.setState({ title: "", selectedAuthor : null});
+        };
     }
 
     render() {
@@ -51,5 +44,16 @@ export class NewPostForm extends Component {
         )
     }
 }
+function mapStateToProps(state) {
+    return {
+      authors : state.authors 
+    }
+};
 
-export default NewPostForm;
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        addNewPost: (authorId, title) => dispatch(addNewPost(authorId, title))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPostForm); 

@@ -7,16 +7,19 @@ export default class PostsList extends Component {
         super(props);
 
         this.state = {
-            // TODO Get the posts and users lists from the store instead
-            posts : [],
-            authors : [],
+            posts : store.getState().posts,
+            authors: store.getState().authors,            
         };
+        
+        store.subscribe(this.onStoreUpdated);
+    }
 
-
-        // TODO subscribe to the store
+    componentDidMount() {
+        this.onStoreUpdated = this.onStoreUpdated.bind(this);
     }
 
     onStoreUpdated = () => {
+        this.setState({ posts: store.getState().posts, authors : store.getState().authors});
         // TODO Update the list of posts and users in state to re-render
     }
 

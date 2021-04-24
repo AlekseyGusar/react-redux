@@ -13,7 +13,6 @@ const initialState = {
         {id : _.uniqueId("post"), authorId : "bkenobi", title : "Do Force Ghosts Exist?"},
     ]
 }
-
 const store = createStore(rootReducer, initialState);
 
 export default store;

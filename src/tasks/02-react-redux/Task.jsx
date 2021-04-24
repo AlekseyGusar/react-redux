@@ -4,6 +4,8 @@ import PostsList from "./PostsList";
 import NewPostForm from "./NewPostForm";
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import { Provider } from "react-redux";
+import store, { Store } from "./store";
 
 // TODO Import the store, and use React-Redux's <Provider> inside <ReactReduxTask>
 
@@ -25,12 +27,12 @@ tree have access to the Redux store automatically.`
 export default class ReactReduxTask extends Component {
     render() {
         return (
-            <div>
+            <Provider store={ store }>
                 <h3>React-Redux</h3>
                 <PostsList />
                 <NewPostForm />
                 <ReactMarkdown plugins={[gfm]} children={markdown} />
-            </div>
+            </Provider>
         )
     }
 }
